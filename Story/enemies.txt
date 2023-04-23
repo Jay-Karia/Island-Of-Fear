@@ -1,0 +1,13 @@
+Enemies:
+1) Skeletons (50)
+2) Zombie (75)
+3) Goblin (90)
+4) Ogre (120)
+5) Witch (170)
+6) Vampire (190)
+7) Werewolf (220)
+8) Golem (240)
+9) Wizard (280)
+10) Pharaoh (280)
+11) Dragon (300)
+12) Phoenix (350)

@@ -1,0 +1,73 @@
+Player: username
+Location: Island
+
+(December 2, 1928)
+First appeared at seashore of the island while travelling in a boat. Interested to explore the island so stepped out of the boat and landed on the island.
+Saw a letter written: "My daughter is kidnapped on this monstrous island and I want you to save her from the hands of the evil creatures! Please!!, Its is a request... November 25, 1928", the remaining part of the letter was broken. He saw 2 paths from the deep trees.
+left[l] and right[r]
+
+Left:
+After travelling some distance he saw a goblin arriving to him. He was speaking in his native language, the only thing the player understood is to kill him!.
+The player had options:
+
+     start a fight [f]
+     run away [r]
+     enemy health [e]
+     check stats [c]
+
+     k:
+     press 'z' or 'x' for a single slash, beware of enemy attacks (denoted by X)
+
+     z:
+     Your health: 100
+     Enemy health: 50 (-15)
+     Knife Health: 97 (-2)
+
+     c:
+     Your health: 100
+     Enemy Health: 30 (-20)
+     Knife Health: 92 (-5)
+
+
+     X:
+     Your Health: 95 (-5)
+
+     Gggrhh!!
+     Dead!
+
+     Fight Results:
+
+     Your Health: 90
+     Knife Health: 84
+     Fight: zcXzXcz
+     Total Hits: 5
+     Hits Taken: 2
+     Drink Potion [p]
+
+     p: Drink Potion
+     {list of potions}
+
+     c: Check Stats
+     health [h]
+     weapons [w]
+     potions [p]
+     Coins: 3800
+     Rubies: 4
+
+After defeating goblin, the player moves on and sees a goldsmith.
+He then interacts with goldsmith
+
+Goldsmith: Hello there! How can I help you?
+options:
+
+Buy [b]
+Upgrade [u]
+Sell [s]
+Check Stats [c]
+
+After interactions, he saw 3 paths:
+North [n]
+West [w]
+Open Map [m]
+
+

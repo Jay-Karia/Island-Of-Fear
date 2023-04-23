@@ -1,0 +1,22 @@
+Potions:
+1) Potion of Rage (+150% damage for 10s) (2)
+2) Protector's Shield (take 50% less damage for 10s) (3)
+3) Potion of Regeneration (restores 100% of your health) (5)
+4) Sorcerer of Time (slows down enemies for 10s) (7)
+5) Blacksmith's Potion (restores health of all your equipments) (10)
+
+Main-Weapons:
+1) Knife (100) (Free)
+2) Pistol (150) (2000)
+3) Submachine (200) (3500)
+4) Flame Thrower (250) (5000)
+5) Rifle (300) (7000)
+
+Side-Weapons:
+1) Hand Grenade
+2) Flash
+3) Acid Grenade
+
+Currencies:
+1) Coins
+2) Ruby
