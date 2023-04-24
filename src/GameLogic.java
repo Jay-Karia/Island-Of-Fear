@@ -1,6 +1,7 @@
 package src;
 import src.colors.Colors;
 import java.util.Scanner;
+
 import src.GameClasses.*;
 public interface GameLogic {
     static void printSeparator(int n) {
@@ -22,8 +23,24 @@ public interface GameLogic {
         for (int i=0;i<options.length;i++) {
             System.out.println(Colors.ANSI_BLACK+options[i]+" ["+keys[i]+"]");
         }
-        System.out.print("> ");
-        String choice = sc.next().charAt(0)+"".toLowerCase();
+        int p = -1;
+        String choice = "";
+        do {
+            System.out.print("> ");
+            choice = sc.next().charAt(0)+"".toLowerCase();
+
+            for (int i = 0; i<keys.length;i++) {
+                if (choice.equalsIgnoreCase(keys[i])) {
+                    System.out.println(options[i]);
+                    p = -1;
+                    break;
+                } else
+                    p = 0;
+
+            }
+            if (p==0)
+                System.out.println("Invalid Command");
+        } while (p==0);
 
         return choice;
     }
@@ -32,12 +49,22 @@ public interface GameLogic {
         System.out.println("This is the story of the game");
     }
 
-    static void createNewGame() throws InterruptedException {
-        // Initialize Game Variables
-        Game newGame = new Game();
-    }
 
     static void displayDeath() {
         System.out.println(Colors.RED_BOLD+"You Died!");
+    }
+
+    static void writeAnimation(String sentence) throws InterruptedException {
+        int delay = 50;
+        int l = sentence.length();
+        for (int i=0;i<l;i++) {
+            Thread.sleep(delay+(i* 2L));
+            System.out.print(sentence.charAt(i));
+        }
+    }
+    static void createNewGame() throws InterruptedException {
+        // Initialize Game Variables
+        Game game = new Game();
+        game.actI();
     }
 }

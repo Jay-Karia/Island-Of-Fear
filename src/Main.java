@@ -13,7 +13,7 @@ public class Main {
 
 //        switch (c) {
 //            case "r" -> GameLogic.readStory();
-//            case "n" -> GameLogic.createNewGame();
+////            case "n" -> GameLogic.createNewGame();
 //            case "l" -> System.out.println("Load Game");
 //            default -> System.out.println("Invalid Command");
 //        }

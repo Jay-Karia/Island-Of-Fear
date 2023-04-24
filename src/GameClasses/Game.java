@@ -1,5 +1,7 @@
 package src.GameClasses;
 
+import src.GameLogic;
+
 import java.util.concurrent.TimeUnit;
 
 public class Game {
@@ -41,6 +43,11 @@ public class Game {
         Weapon FlameThrower = new Weapon("Flame Thrower", 250, 5000, 45, 15);
         Weapon Rifle = new Weapon("Rifle", 300, 7000, 55, 15);
 
+        // Sub Weapons
+        SubWeapon grenade = new SubWeapon("Hand Grenade", 200, 100);
+        SubWeapon Flash = new SubWeapon("Flash", 300, 150);
+        SubWeapon acid = new SubWeapon("Acid Grenade", 400, 200);
+
 
 //        double health = player.health;
 //        double speed = org.attackSpeed;
@@ -51,5 +58,17 @@ public class Game {
 //        }
 //        player.health = health;
 //        System.out.println(player.health);
+    }
+
+    public void actI() throws InterruptedException {
+//        System.out.println("\nWelcome to ACT I");
+//        GameLogic.writeAnimation("Player: What's this? A letter!");
+//        System.out.println();
+        String[] options = {"Take", "Leave"};
+        String[] keys = {"t", "l"};
+
+        int p =-1;
+        System.out.print("Player: What's this? A letter!");
+        String choice = GameLogic.getInput("", options, keys);
     }
 }
