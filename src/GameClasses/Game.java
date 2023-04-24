@@ -1,14 +1,17 @@
 package src.GameClasses;
 
 import src.GameLogic;
+import src.colors.Colors;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 public class Game {
     public Player player;
-    public String[] enemies;
-    public String[] weapons;
-    public String[] potions;
+    public Enemy[] enemies;
+    public Weapon[] weapons;
+    public Potion[] potions;
+    public SubWeapon[] subwepaons;
     public Game() throws InterruptedException {
 
         // Player
@@ -48,27 +51,65 @@ public class Game {
         SubWeapon Flash = new SubWeapon("Flash", 300, 150);
         SubWeapon acid = new SubWeapon("Acid Grenade", 400, 200);
 
+        enemies = new Enemy[] {Skeleton, Zombie, Goblin, Org, Witch, Vampire, Werewolf, Golem, Wizard, Pharaoh, Dragon, Phoenix};
+        weapons = new Weapon[] {Knife, Pistol, Submachine, FlameThrower, Rifle};
+        subwepaons = new SubWeapon[] {grenade, Flash, acid};
+        potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
-//        double health = player.health;
-//        double speed = org.attackSpeed;
-//        for (int i = (int) health; i>=0;i-=org.damage) {
-//            health-=org.damage;
-//            TimeUnit.SECONDS.sleep((long) speed);
-//            player.checkDeath(health);
-//        }
-//        player.health = health;
-//        System.out.println(player.health);
+        player.weapons = new Weapon[] {Knife};
+//        player.potions = new Potion[] {rage};
     }
 
     public void actI() throws InterruptedException {
 //        System.out.println("\nWelcome to ACT I");
 //        GameLogic.writeAnimation("Player: What's this? A letter!");
 //        System.out.println();
-        String[] options = {"Take", "Leave"};
-        String[] keys = {"t", "l"};
 
-        int p =-1;
         System.out.print("Player: What's this? A letter!");
-        String choice = GameLogic.getInput("", options, keys);
+        if (GameLogic.getInput("", new String[]{"Take", "Leave"}, new String[]{"t", "l"}).equals("t")) {
+            GameLogic.readStory();
+        }
+
+        switch (GameLogic.getInput("\nI see two paths, where should I go now??", new String[]{"Left", "Right"}, new String[]{"l", "r"})) {
+            case "l"-> {
+                // Left Turn
+                System.out.println("\nWalking...");
+                Thread.sleep(5000);
+                System.out.println("\nWhoosh!!!");
+                Thread.sleep(2000);
+                System.out.println("Player: Oh, a... "+ Colors.ANSI_GREEN+"Goblin"+Colors.ANSI_BLACK+"?");
+                Thread.sleep(2000);
+                int p = -1;
+                do {
+                    switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
+                        case "f"-> {
+                            // Fight
+                            player.fight(enemies[2]);
+                            p = -1;
+                        }
+                        case "r"-> {
+                            System.out.println(Colors.BLACK_BOLD+"\nWarriors are the ones who always try");
+                            p=-1;
+                        }
+                        case "p"-> {
+                            // Drink Potion
+                            if (player.potions.length > 0) {
+                                // use potion
+                            } else
+                                System.out.println(Colors.ANSI_BLACK+"You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_BLACK + " potions");
+                            p = -1;
+                        }
+                        case "c"-> {
+                            player.checkStats();
+                            p = 0;
+                        }
+                    }
+                } while (p==0);
+            }
+            case "r" -> {
+                // Right Turn
+            }
+        }
+
     }
 }
