@@ -7,13 +7,16 @@ public class Weapon {
     public int damage;
     public int ammo;
 
+    public double attackSpeed;
 
-    public Weapon (String name, int health, int cost, int damage, int ammo) {
+
+    public Weapon (String name, int health, int cost, int damage, int ammo, double attackSpeed) {
         this.name = name;
         this.health = health;
         this.cost = cost;
         this.damage = damage;
         this.ammo = ammo;
+        this.attackSpeed = attackSpeed;
     }
 
     public void checkStats() {

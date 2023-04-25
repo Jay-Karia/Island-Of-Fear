@@ -19,9 +19,9 @@ public interface GameLogic {
     static String getInput(String statement, String[] options, String[] keys) {
         Scanner sc = new Scanner(System.in);
 
-        System.out.println(Colors.ANSI_BLACK+statement);
+        System.out.println(Colors.ANSI_RESET+statement);
         for (int i=0;i<options.length;i++) {
-            System.out.println(Colors.ANSI_BLACK+options[i]+" ["+keys[i]+"]");
+            System.out.println(Colors.ANSI_RESET+options[i]+" ["+keys[i]+"]");
         }
         int p = -1;
         String choice = "";
@@ -47,11 +47,6 @@ public interface GameLogic {
 
     static void readStory() throws InterruptedException {
         writeAnimation("This is the story of the game");
-    }
-
-
-    static void displayDeath() {
-        System.out.println(Colors.RED_BOLD+"You Died!");
     }
 
     static void writeAnimation(String sentence) throws InterruptedException {

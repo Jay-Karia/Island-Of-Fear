@@ -11,7 +11,6 @@ public class Game {
     public Enemy[] enemies;
     public Weapon[] weapons;
     public Potion[] potions;
-    public SubWeapon[] subwepaons;
     public Game() throws InterruptedException {
 
         // Player
@@ -19,7 +18,7 @@ public class Game {
         this.player = player;
 
         // Enemies
-        Enemy Skeleton = new Enemy("Skelton", 50, 10, 5);
+        Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5);
         Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7);
         Enemy Goblin = new Enemy("Goblin", 90, 7, 10);
         Enemy Org = new Enemy("Org", 120, 6.5, 12);
@@ -40,20 +39,14 @@ public class Game {
         Potion blacksmith = new Potion("BlackSmith's Potion", 10, "restores health of equipment", 10);
 
         // Weapons
-        Weapon Knife = new Weapon("Knife", 100, 0, 15, 0);
-        Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 5);
-        Weapon Submachine = new Weapon("Submachine", 200, 3500, 30, 10);
-        Weapon FlameThrower = new Weapon("Flame Thrower", 250, 5000, 45, 15);
-        Weapon Rifle = new Weapon("Rifle", 300, 7000, 55, 15);
-
-        // Sub Weapons
-        SubWeapon grenade = new SubWeapon("Hand Grenade", 200, 100);
-        SubWeapon Flash = new SubWeapon("Flash", 300, 150);
-        SubWeapon acid = new SubWeapon("Acid Grenade", 400, 200);
+        Weapon Knife = new Weapon("Knife", 4, 0, 15, -1, 2.5);
+        Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 5, 2);
+        Weapon Submachine = new Weapon("Submachine", 200, 3500, 30, 10, 1);
+        Weapon Missile = new Weapon("Missile", 250, 5000, 45, 15, 3.5);
+        Weapon Rifle = new Weapon("Rifle", 300, 7000, 55, 15, 4);
 
         enemies = new Enemy[] {Skeleton, Zombie, Goblin, Org, Witch, Vampire, Werewolf, Golem, Wizard, Pharaoh, Dragon, Phoenix};
-        weapons = new Weapon[] {Knife, Pistol, Submachine, FlameThrower, Rifle};
-        subwepaons = new SubWeapon[] {grenade, Flash, acid};
+        weapons = new Weapon[] {Knife, Pistol, Submachine, Missile, Rifle};
         potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
         player.weapons = new Weapon[] {Knife};
@@ -65,26 +58,26 @@ public class Game {
 //        GameLogic.writeAnimation("Player: What's this? A letter!");
 //        System.out.println();
 
-        System.out.print("Player: What's this? A letter!");
-        if (GameLogic.getInput("", new String[]{"Take", "Leave"}, new String[]{"t", "l"}).equals("t")) {
-            GameLogic.readStory();
-        }
+//        System.out.print("Player: What's this? A letter!");
+//        if (GameLogic.getInput("", new String[]{"Take", "Leave"}, new String[]{"t", "l"}).equals("t")) {
+//            GameLogic.readStory();
+//        }
 
         switch (GameLogic.getInput("\nI see two paths, where should I go now??", new String[]{"Left", "Right"}, new String[]{"l", "r"})) {
             case "l"-> {
                 // Left Turn
                 System.out.println("\nWalking...");
-                Thread.sleep(5000);
+//                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
-                Thread.sleep(2000);
-                System.out.println("Player: Oh, a... "+ Colors.ANSI_GREEN+"Goblin"+Colors.ANSI_BLACK+"?");
-                Thread.sleep(2000);
+//                Thread.sleep(2000);
+                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+"Skeleton"+Colors.ANSI_RESET+"?");
+//                Thread.sleep(2000);
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f"-> {
                             // Fight
-                            player.fight(enemies[2]);
+                            player.fight(enemies[0]); // skeleton
                             p = -1;
                         }
                         case "r"-> {
@@ -96,8 +89,8 @@ public class Game {
                             if (player.potions.length > 0) {
                                 // use potion
                             } else
-                                System.out.println(Colors.ANSI_BLACK+"You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_BLACK + " potions");
-                            p = -1;
+                                System.out.println(Colors.ANSI_RESET+"You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_RESET + " potions");
+                            p = 0;
                         }
                         case "c"-> {
                             player.checkStats();

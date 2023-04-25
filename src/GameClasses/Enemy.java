@@ -15,11 +15,17 @@ public class Enemy {
         this.damage = damage;
     }
 
-    public double attack() {
-        return damage;
+    public void checkStats() {
+        System.out.println("Enemy Health: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
     }
     public void checkDeath(double health) {
-        if (health == 0)
-            System.out.println(Colors.GREEN_BOLD+name+" Died!");
+        if (health == 0 )
+            System.out.println(Colors.GREEN_BOLD+name+" Died!"+Colors.ANSI_RESET);
+    }
+
+    public double attack() throws InterruptedException {
+        Thread.sleep((long) attackSpeed*1000);
+        System.out.println("Enemy Attacked");
+        return damage;
     }
 }
