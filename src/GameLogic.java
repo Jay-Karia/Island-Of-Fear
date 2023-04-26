@@ -21,17 +21,16 @@ public interface GameLogic {
 
         System.out.println(Colors.ANSI_RESET+statement);
         for (int i=0;i<options.length;i++) {
-            System.out.println(Colors.ANSI_RESET+options[i]+" ["+keys[i]+"]");
+            System.out.println(Colors.ANSI_RESET+options[i]+Colors.BLACK_BOLD+" ["+keys[i]+"]");
         }
         int p = -1;
-        String choice = "";
+        String choice;
         do {
             System.out.print("> ");
             choice = sc.next().charAt(0)+"".toLowerCase();
 
-            for (int i = 0; i<keys.length;i++) {
-                if (choice.equalsIgnoreCase(keys[i])) {
-//                    System.out.println(options[i]);
+            for (String key : keys) {
+                if (choice.equalsIgnoreCase(key)) {
                     p = -1;
                     break;
                 } else
@@ -62,5 +61,14 @@ public interface GameLogic {
         // Initialize Game Variables
         Game game = new Game();
         game.actI();
+    }
+
+    static void genFightSummary(double ammoUsed, double healthLost, double totalAttacks, double totalEnemyAttacks) {
+        System.out.println();
+        GameLogic.printHeader(Colors.BLACK_BOLD+"Fight Summary"+Colors.ANSI_RESET, 15);
+        System.out.println(Colors.ANSI_RESET+"Ammo/Health: "+Colors.BLACK_BOLD+ammoUsed+" 🔫"+Colors.ANSI_RESET);
+        System.out.println("Health Lost: "+Colors.BLACK_BOLD+healthLost+" 💖"+Colors.ANSI_RESET);
+        System.out.println("Total Attacks: "+Colors.BLACK_BOLD+totalAttacks+" 🏹"+Colors.ANSI_RESET);
+        System.out.println("Total Enemy Attacks: "+Colors.BLACK_BOLD+totalEnemyAttacks+" 🏹"+Colors.ANSI_RESET);
     }
 }

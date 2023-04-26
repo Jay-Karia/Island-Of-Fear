@@ -39,17 +39,17 @@ public class Game {
         Potion blacksmith = new Potion("BlackSmith's Potion", 10, "restores health of equipment", 10);
 
         // Weapons
-        Weapon Knife = new Weapon("Knife", 4, 0, 15, -1, 2.5);
-        Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 5, 2);
-        Weapon Submachine = new Weapon("Submachine", 200, 3500, 30, 10, 1);
-        Weapon Missile = new Weapon("Missile", 250, 5000, 45, 15, 3.5);
-        Weapon Rifle = new Weapon("Rifle", 300, 7000, 55, 15, 4);
+        Weapon Knife = new Weapon("Knife", 100, 0, 15, -1, 2.5);
+        Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 10, 2);
+        Weapon Submachine = new Weapon("Submachine", 200, 3500, 35, 10, 1);
+        Weapon Missile = new Weapon("Missile", 250, 5000, 50, 15, 3.5);
+        Weapon Rifle = new Weapon("Rifle", 300, 7000, 60, 15, 4);
 
         enemies = new Enemy[] {Skeleton, Zombie, Goblin, Org, Witch, Vampire, Werewolf, Golem, Wizard, Pharaoh, Dragon, Phoenix};
         weapons = new Weapon[] {Knife, Pistol, Submachine, Missile, Rifle};
         potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
-        player.weapons = new Weapon[] {Knife};
+        player.weapons = new Weapon[] {Knife, Rifle};
 //        player.potions = new Potion[] {rage};
     }
 
@@ -70,7 +70,7 @@ public class Game {
 //                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
 //                Thread.sleep(2000);
-                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+"Skeleton"+Colors.ANSI_RESET+"?");
+                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+enemies[0].name+Colors.ANSI_RESET+"?");
 //                Thread.sleep(2000);
                 int p = -1;
                 do {

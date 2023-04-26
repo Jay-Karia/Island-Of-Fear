@@ -2,7 +2,10 @@ package src.GameClasses;
 import src.GameLogic;
 import src.colors.Colors;
 
+import java.util.concurrent.TimeUnit;
+
 import java.util.*;
+//import java
 public class Player {
     public double health;
 //    public String name;
@@ -45,6 +48,11 @@ public class Player {
         int ammo;
         Weapon selectedWeapon = null;
 
+        double ammoUsed = 0;
+        double healthLost = 0;
+        double totalAttacks = 0;
+        double totalEnemyAttacks = 0;
+
         if (this.weapons.length == 1) {
             System.out.println(Colors.ANSI_RESET+"Weapon: "+Colors.BLACK_BOLD+this.weapons[0].name+"\n");
             selectedWeapon = weapons[0];
@@ -72,9 +80,25 @@ public class Player {
             damage = selectedWeapon.damage;
             ammo = selectedWeapon.ammo;
 
+            int counter = 0;
+
             System.out.println(Colors.ANSI_RESET+"Press "+Colors.BLACK_BOLD+"\"z\"" + Colors.ANSI_RESET+" for single strike, beware of enemy attacks (denoted by "+Colors.BLACK_BOLD+"\"X\""+Colors.ANSI_RESET+")");
 
+            // Before fight starts
+            if (selectedWeapon.name.equalsIgnoreCase("knife"))
+                System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nWeapon Health: "+Colors.GREEN_BOLD+selectedWeapon.health+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
+             else
+                System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nAmmo: "+Colors.GREEN_BOLD+selectedWeapon.ammo+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
+
+            long startTime = System.nanoTime();
+            int p = 0;
+
             while (enemyHealth != 0) {
+                // Calculate Time
+
+                if (counter == enemyAttackSpeed*1000) {
+                    this.health -= enemyDamage;
+                }
                 if (ammo != 0) {
                     String choice = GameLogic.getInput("", new String[]{}, new String[] {"z"});
                     if (selectedWeapon.health <= 0) {
@@ -82,28 +106,55 @@ public class Player {
                         break;
                     }
                     if (choice.equalsIgnoreCase("z")) {
+                        System.out.println(Colors.BLACK_BOLD + selectedWeapon.name+ Colors.ANSI_RESET +" attack");
                         // Attack
                         if (damage > enemyHealth)
                             damage = enemyHealth;
                         enemyHealth -= damage;
+                        totalAttacks++;
                         // Reduce Weapon Health
                         selectedWeapon.health -= 2;
 
                         if (ammo > 0)
                             ammo-=1;
+
+                        selectedWeapon.ammo = ammo;
+                        ammoUsed++;
                     }
 
                     enemy.health = enemyHealth;
-                    enemy.checkStats();
-                    System.out.println("Health: "+Colors.BLACK_BOLD+selectedWeapon.health+Colors.ANSI_RESET+" 🔪");
+                    enemy.checkStats(damage);
+                    if (selectedWeapon.name.equalsIgnoreCase("knife")) {
+                        System.out.println("Health: "+Colors.BLACK_BOLD+selectedWeapon.health+Colors.ANSI_RESET+" 🔪"+Colors.RED_BOLD+" (-2)"+Colors.ANSI_RESET);
+                    } else {
+                        System.out.println("Ammo: "+Colors.BLACK_BOLD+selectedWeapon.ammo+Colors.ANSI_RESET+" 🔫"+Colors.RED_BOLD+" (-1)"+Colors.ANSI_RESET);
+                    }
 
                     enemy.checkDeath(enemyHealth);
 
                     Thread.sleep((long) attackSpeed*1000);
+                    counter++;
                 } else {
-                    System.out.println(Colors.ANSI_RED+"Your selected weapon is out of ammo!");
+                    System.out.println(Colors.RED_BOLD+"\nYour selected weapon is out of ammo!\nYou Lose");
+                    break;
+                }
+                long endTime = System.nanoTime();
+                long timeElapsed = 0;
+                if (p==0) {
+                    timeElapsed = (endTime - startTime) / 1000000;
+                    timeElapsed = timeElapsed / 1000;
+                }
+
+                // Enemy Attacks
+                if (timeElapsed >= enemyAttackSpeed) {
+                    startTime = 0;
+                    p = -1;
+                    System.out.println("Enemy attacks");
                 }
             }
+
+        // Fight Summary
+        GameLogic.genFightSummary(ammoUsed, healthLost, totalAttacks, totalEnemyAttacks);
 
     }
 
@@ -112,6 +163,4 @@ public class Player {
         System.out.println("Coins: "+ Colors.BLACK_BOLD+this.coins+" ⭕"+Colors.ANSI_RESET);
         System.out.println("Rubies: "+ Colors.BLACK_BOLD+this.rubies+" 💎"+Colors.ANSI_RESET);
     }
-
-
 }

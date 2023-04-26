@@ -15,8 +15,8 @@ public class Enemy {
         this.damage = damage;
     }
 
-    public void checkStats() {
-        System.out.println("Enemy Health: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
+    public void checkStats(double damage) {
+        System.out.println("Enemy Health: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.GREEN_BOLD+" (-"+damage+")"+Colors.ANSI_RESET);
     }
     public void checkDeath(double health) {
         if (health == 0 )
