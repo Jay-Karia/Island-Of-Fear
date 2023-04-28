@@ -3,20 +3,20 @@ import src.colors.Colors;
 import java.util.Scanner;
 
 import src.GameClasses.*;
-public interface GameLogic {
-    static void printSeparator(int n) {
+public class GameLogic {
+    public static void printSeparator(int n) {
         for (int i=1;i<=n;i++) {
             System.out.print(Colors.BLACK_BOLD+"-");
         }
         System.out.println();
     }
-    static void printHeader(String header, int n) {
+    public static void printHeader(String header, int n) {
         printSeparator(n);
         System.out.println(Colors.BLACK_BOLD+header);
         printSeparator(n);
     }
 
-    static String getInput(String statement, String[] options, String[] keys) {
+    public static String getInput(String statement, String[] options, String[] keys) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println(Colors.ANSI_RESET+statement);
@@ -44,11 +44,11 @@ public interface GameLogic {
         return choice;
     }
 
-    static void readStory() throws InterruptedException {
+    public static void readStory() throws InterruptedException {
         writeAnimation("This is the story of the game");
     }
 
-    static void writeAnimation(String sentence) throws InterruptedException {
+    public static void writeAnimation(String sentence) throws InterruptedException {
         int delay = 50;
         int l = sentence.length();
         for (int i=0;i<l;i++) {
@@ -57,18 +57,21 @@ public interface GameLogic {
         }
     }
 
-    static void createNewGame() throws InterruptedException {
+    public static void createNewGame() throws InterruptedException {
         // Initialize Game Variables
         Game game = new Game();
         game.actI();
     }
 
-    static void genFightSummary(double ammoUsed, double healthLost, double totalAttacks, double totalEnemyAttacks) {
+    public static void genFightSummary(double ammoUsed, double healthLost, double totalAttacks, double totalEnemyAttacks) throws InterruptedException {
+        Thread.sleep(2000);
         System.out.println();
         GameLogic.printHeader(Colors.BLACK_BOLD+"Fight Summary"+Colors.ANSI_RESET, 15);
         System.out.println(Colors.ANSI_RESET+"Ammo/Health: "+Colors.BLACK_BOLD+ammoUsed+" 🔫"+Colors.ANSI_RESET);
         System.out.println("Health Lost: "+Colors.BLACK_BOLD+healthLost+" 💖"+Colors.ANSI_RESET);
         System.out.println("Total Attacks: "+Colors.BLACK_BOLD+totalAttacks+" 🏹"+Colors.ANSI_RESET);
         System.out.println("Total Enemy Attacks: "+Colors.BLACK_BOLD+totalEnemyAttacks+" 🏹"+Colors.ANSI_RESET);
+
+        Thread.sleep(2000);
     }
 }
