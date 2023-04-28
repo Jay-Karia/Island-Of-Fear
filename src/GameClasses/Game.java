@@ -36,7 +36,7 @@ public class Game {
         Potion shield = new Potion("Protector's Shield", 10, "50% less damage", 3);
         Potion regeneration = new Potion("Potion of Regeneration", 0, "restores health", 5);
         Potion time = new Potion("Sorcerer of Time", 10, "slows down enemies", 7);
-        Potion blacksmith = new Potion("BlackSmith's Potion", 10, "restores health of equipment", 10);
+        Potion blacksmith = new Potion("BlackSmith's Secret", 10, "restores health of equipment", 10);
 
         // Weapons
         Weapon Knife = new Weapon("Knife", 100, 0, 15, -1, 2.5);
@@ -50,6 +50,7 @@ public class Game {
         potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
         player.weapons = new Weapon[] {Knife, Rifle};
+        player.potions = new Potion[] {rage, shield};
 //        player.potions = new Potion[] {rage};
     }
 
@@ -64,7 +65,7 @@ public class Game {
 //        }
 
         switch (GameLogic.getInput("\nI see two paths, where should I go now??", new String[]{"Left", "Right"}, new String[]{"l", "r"})) {
-            case "l"-> {
+            case "l": {
                 // Left Turn
                 System.out.println("\nWalking...");
 //                Thread.sleep(5000);
@@ -75,31 +76,47 @@ public class Game {
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
-                        case "f"-> {
+                        case "f": {
                             // Fight
                             player.fight(enemies[0]); // skeleton
                             p = -1;
+                            break;
                         }
-                        case "r"-> {
+                        case "r": {
                             System.out.println(Colors.BLACK_BOLD+"\nWarriors are the ones who always try");
                             p=-1;
+                            break;
                         }
-                        case "p"-> {
+                        case "p": {
                             // Drink Potion
                             if (player.potions.length > 0) {
                                 // use potion
+                                // String[] options = new String[player.potions.length];
+                                // String[] keys = new String[player.potions.length];
+                                // int[] qty = new int[player.potions.length];
+                                
+                                
+                                // for (int i =0;i<options.length;i++) {
+                                //     options[i] = player.potions[i].name;
+                                //     keys[i] = player.potions[i].name.substring(player.potions[i].name.length()-2, player.potions[i].name.length()-1); }
+                                
+                                
+                                // String choice = GameLogic.getInput("", options, keys);
+                                // System.out.println(choice);
+                                player.checkPotions();
+                                break;
                             } else
                                 System.out.println(Colors.ANSI_RESET+"You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_RESET + " potions");
                             p = 0;
                         }
-                        case "c"-> {
+                        case "c": {
                             player.checkStats();
                             p = 0;
                         }
                     }
                 } while (p==0);
             }
-            case "r" -> {
+            case "r" : {
                 // Right Turn
             }
         }
