@@ -11,6 +11,7 @@ public class Game {
     public Enemy[] enemies;
     public Weapon[] weapons;
     public Potion[] potions;
+    public Potion selectedPotion;
     public Game() throws InterruptedException {
 
         // Player
@@ -32,11 +33,11 @@ public class Game {
         Enemy Phoenix = new Enemy("Phoenix", 350, 2.5, 30);
 
         // Potions
-        Potion rage = new Potion("Potion of Rage", 10, "+150% damage", 2);
-        Potion shield = new Potion("Protector's Shield", 10, "50% less damage", 3);
-        Potion regeneration = new Potion("Potion of Regeneration", 0, "restores health", 5);
-        Potion time = new Potion("Sorcerer of Time", 10, "slows down enemies", 7);
-        Potion blacksmith = new Potion("BlackSmith's Secret", 10, "restores health of equipment", 10);
+        Potion rage = new Potion("Potion of Rage", 10, "+150% damage", 2, "d");
+        Potion shield = new Potion("Protector's Shield", 10, "50% less damage", 3, "s");
+        Potion regeneration = new Potion("Potion of Regeneration", 0, "Restores 100% of health", 5, "r");
+        Potion time = new Potion("Sorcerer of Time", 10, "Slows down enemies", 7, "t");
+        Potion blacksmith = new Potion("BlackSmith's Secret", 10, "Restores 100% health of equipment", 10, "b");
 
         // Weapons
         Weapon Knife = new Weapon("Knife", 100, 0, 15, -1, 2.5);
@@ -50,7 +51,9 @@ public class Game {
         potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
         player.weapons = new Weapon[] {Knife, Rifle};
-        player.potions = new Potion[] {rage, shield};
+        player.potions = new Potion[] {rage, shield, regeneration};
+
+        selectedPotion = null;
 //        player.potions = new Potion[] {rage};
     }
 
@@ -71,14 +74,14 @@ public class Game {
 //                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
 //                Thread.sleep(2000);
-                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+enemies[0].name+Colors.ANSI_RESET+"?");
+                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+enemies[11].name+Colors.ANSI_RESET+"?");
 //                Thread.sleep(2000);
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f": {
                             // Fight
-                            player.fight(enemies[0]); // skeleton
+                            player.fight(enemies[11], selectedPotion); // skeleton and selected potion
                             p = -1;
                             break;
                         }
@@ -89,25 +92,28 @@ public class Game {
                         }
                         case "p": {
                             // Drink Potion
-                            if (player.potions.length > 0) {
+                            if (player.checkPotions() == 1) {
                                 // use potion
-                                // String[] options = new String[player.potions.length];
-                                // String[] keys = new String[player.potions.length];
-                                // int[] qty = new int[player.potions.length];
+                                String[] options = new String[player.potions.length];
+                                String[] keys = new String[player.potions.length];
+                                
+                                for (int i =0;i<options.length;i++) {
+                                    options[i] = player.potions[i].name + " x" + player.qty[i];
+                                    keys[i] = player.potions[i].name.substring(player.potions[i].name.length()-2, player.potions[i].name.length()-1); }
                                 
                                 
-                                // for (int i =0;i<options.length;i++) {
-                                //     options[i] = player.potions[i].name;
-                                //     keys[i] = player.potions[i].name.substring(player.potions[i].name.length()-2, player.potions[i].name.length()-1); }
+                                String choice = GameLogic.getInput("", options, keys);
                                 
-                                
-                                // String choice = GameLogic.getInput("", options, keys);
-                                // System.out.println(choice);
-                                player.checkPotions();
-                                break;
-                            } else
+                                for (int i = 0;i<keys.length;i++) {
+                                    if (keys[i].equals(choice)) {
+                                        selectedPotion = potions[i];
+                                        player.qty[i] -= 1;
+                                    }
+                                }
+                             } else
                                 System.out.println(Colors.ANSI_RESET+"You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_RESET + " potions");
                             p = 0;
+                            break;
                         }
                         case "c": {
                             player.checkStats();
