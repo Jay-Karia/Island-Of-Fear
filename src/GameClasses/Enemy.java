@@ -18,9 +18,12 @@ public class Enemy {
     public void checkStats(double damage) {
         System.out.println("Enemy Health: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.GREEN_BOLD+" (-"+damage+")"+Colors.ANSI_RESET);
     }
-    public void checkDeath(double health) {
-        if (health == 0 )
+    public int checkDeath(double health) {
+        if (health == 0 ) {
             System.out.println(Colors.GREEN_BOLD+name+" Died!"+Colors.ANSI_RESET);
+            return -1;
+        } else
+            return 1;
     }
 
     public double attack() throws InterruptedException {
