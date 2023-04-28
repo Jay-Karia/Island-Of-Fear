@@ -25,26 +25,31 @@ public class Player {
         coins = 0;
         rubies = 0;
         weapons = new Weapon[]{};
-        potions = new Potion[]{};
-        qty = new int[] {};
+        potions = new Potion[5];
+        qty = new int[5];
     }
  
     public int checkDeath(double health) {
-        if (health == 0.0) {
+        if (health <= 0.0) {
             System.out.println(Colors.RED_BOLD+"You Died!");
             return -1;
         } else 
             return 1;
     }
 
-    public void checkPotions() {
+    public int checkPotions() {
         int l = this.potions.length;
-        for (int i = 0;i<l;i++) {
-            System.out.println(this.potions[i].name);
+        if (l>0) {
+            for (int i = 0;i<l;i++) {
+                qty[i] +=1;
+            }
+            return 1;
+        } else {
+          return -1;   
         }
     }
 
-    public void fight(Enemy enemy) throws InterruptedException {
+    public void fight(Enemy enemy, Potion selectedPotion) throws InterruptedException {
         // Enemy
         double enemyHealth = enemy.health;
         double enemyAttackSpeed = enemy.attackSpeed;
@@ -63,6 +68,8 @@ public class Player {
         double healthLost = 0;
         double totalAttacks = 0;
         double totalEnemyAttacks = 0;
+
+        System.out.println(this.qty[0]);
 
         if (this.weapons.length == 1) {
             System.out.println(Colors.ANSI_RESET+"Weapon: "+Colors.BLACK_BOLD+this.weapons[0].name+"\n");
@@ -83,7 +90,11 @@ public class Player {
                     selectedWeapon = weapons[i];
                 }
             }
-            System.out.println("Weapon: "+Colors.BLACK_BOLD+selectedWeapon.name+"\n");
+                System.out.println(Colors.ANSI_RESET+"\nWeapon: "+Colors.BLACK_BOLD+selectedWeapon.name+Colors.ANSI_RESET);
+            if (selectedPotion!=null) {
+                    System.out.println("Potion: "+Colors.BLACK_BOLD+selectedPotion.name+Colors.ANSI_RESET);
+            }
+            System.out.println();
 
         }
 
@@ -93,19 +104,27 @@ public class Player {
 
             int counter = 0;
 
+            Thread.sleep(2000);
+        
             System.out.println(Colors.ANSI_RESET+"Press "+Colors.BLACK_BOLD+"\"z\"" + Colors.ANSI_RESET+" for single strike, beware of enemy attacks"+Colors.ANSI_RESET);
+
+            Thread.sleep(2000);
 
             // Before fight starts
             if (selectedWeapon.name.equalsIgnoreCase("knife"))
-                System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nWeapon Health: "+Colors.GREEN_BOLD+selectedWeapon.health+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
+                System.out.println(Colors.ANSI_RESET+"\nPlayer Health: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nWeapon Health: "+Colors.GREEN_BOLD+selectedWeapon.health+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
              else
                 System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nAmmo: "+Colors.GREEN_BOLD+selectedWeapon.ammo+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
 
             long startTime = System.nanoTime();
-            int p = 0;
+            long endTime = 0;
+            long timeElapsed = 0;
 
+        if (selectedPotion!=null) {
+            String effect = selectedPotion.duration > 0 ? " for " + ""+selectedPotion.duration+"s" : "";
+            System.out.println(Colors.ANSI_RESET+"Potion Effect: "+Colors.BLACK_BOLD+selectedPotion.effect+effect);
+        }
             while (enemyHealth != 0) {
-
                 if (this.checkDeath(this.health) == -1)
                     break;
 
@@ -120,6 +139,19 @@ public class Player {
                     }
                     if (choice.equalsIgnoreCase("z")) {
                         System.out.println(Colors.BLACK_BOLD + selectedWeapon.name+ Colors.ANSI_RESET +" attack");
+                        
+                        // System.out.println(timeElapsed);
+                        if (selectedPotion!=null) {
+                            if (selectedPotion.duration >= timeElapsed) {
+                                if (selectedPotion.key.equals("d"))
+                                    damage = selectedPotion.use(selectedWeapon.damage);
+                                else if (selectedPotion.key.equals("s"))
+                                    enemyDamage = selectedPotion.use(enemy.damage);
+                            } else {
+                                damage = selectedWeapon.damage;
+                                enemyDamage = enemy.damage;
+                            }
+                        }                 
                         // Attack
                         if (damage > enemyHealth)
                             damage = enemyHealth;
@@ -153,13 +185,15 @@ public class Player {
                     System.out.println(Colors.RED_BOLD+"\nYour selected weapon is out of ammo!\nYou Lose");
                     break;
                 }
-                long endTime = System.nanoTime();
-                long timeElapsed = (endTime - startTime) / 1000000;
+                endTime = System.nanoTime();
+                timeElapsed = (endTime - startTime) / 1000000;
                 timeElapsed = timeElapsed / 1000;
 
                 // Enemy Attacks
                 
                 if (timeElapsed >= enemyAttackSpeed) {
+                    if (enemyDamage > this.health)
+                        enemyDamage = this.health;
                     enemyAttackSpeed+=enemy.attackSpeed;
                     health-=enemyDamage;
                     this.health = health;
@@ -175,9 +209,10 @@ public class Player {
 
     }
 
-    public void checkStats() {
+    public void checkStats() throws InterruptedException {
         System.out.println("\nHealth: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
         System.out.println("Coins: "+ Colors.BLACK_BOLD+this.coins+" ⭕"+Colors.ANSI_RESET);
         System.out.println("Rubies: "+ Colors.BLACK_BOLD+this.rubies+" 💎"+Colors.ANSI_RESET);
+        Thread.sleep(2000);
     }
 }
