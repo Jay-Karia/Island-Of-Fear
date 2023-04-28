@@ -11,6 +11,7 @@ public class Player {
 //    public String name;
     public Weapon[] weapons;
     public Potion[] potions;
+    public int[] qty;
     public long coins;
     public long rubies;
 
@@ -25,11 +26,21 @@ public class Player {
         rubies = 0;
         weapons = new Weapon[]{};
         potions = new Potion[]{};
+        qty = new int[] {};
     }
-
-    public void checkDeath(double health) {
+ 
+    public int checkDeath(double health) {
         if (health == 0.0) {
             System.out.println(Colors.RED_BOLD+"You Died!");
+            return -1;
+        } else 
+            return 1;
+    }
+
+    public void checkPotions() {
+        int l = this.potions.length;
+        for (int i = 0;i<l;i++) {
+            System.out.println(this.potions[i].name);
         }
     }
 
@@ -82,7 +93,7 @@ public class Player {
 
             int counter = 0;
 
-            System.out.println(Colors.ANSI_RESET+"Press "+Colors.BLACK_BOLD+"\"z\"" + Colors.ANSI_RESET+" for single strike, beware of enemy attacks (denoted by "+Colors.BLACK_BOLD+"\"X\""+Colors.ANSI_RESET+")");
+            System.out.println(Colors.ANSI_RESET+"Press "+Colors.BLACK_BOLD+"\"z\"" + Colors.ANSI_RESET+" for single strike, beware of enemy attacks"+Colors.ANSI_RESET);
 
             // Before fight starts
             if (selectedWeapon.name.equalsIgnoreCase("knife"))
@@ -94,7 +105,9 @@ public class Player {
             int p = 0;
 
             while (enemyHealth != 0) {
-                // Calculate Time
+
+                if (this.checkDeath(this.health) == -1)
+                    break;
 
                 if (counter == enemyAttackSpeed*1000) {
                     this.health -= enemyDamage;
@@ -130,7 +143,9 @@ public class Player {
                         System.out.println("Ammo: "+Colors.BLACK_BOLD+selectedWeapon.ammo+Colors.ANSI_RESET+" 🔫"+Colors.RED_BOLD+" (-1)"+Colors.ANSI_RESET);
                     }
 
-                    enemy.checkDeath(enemyHealth);
+                    int d = enemy.checkDeath(enemyHealth);
+                    if (d ==-1)
+                        break;
 
                     Thread.sleep((long) attackSpeed*1000);
                     counter++;
@@ -139,17 +154,19 @@ public class Player {
                     break;
                 }
                 long endTime = System.nanoTime();
-                long timeElapsed = 0;
-                if (p==0) {
-                    timeElapsed = (endTime - startTime) / 1000000;
-                    timeElapsed = timeElapsed / 1000;
-                }
+                long timeElapsed = (endTime - startTime) / 1000000;
+                timeElapsed = timeElapsed / 1000;
 
                 // Enemy Attacks
+                
                 if (timeElapsed >= enemyAttackSpeed) {
-                    startTime = 0;
-                    p = -1;
-                    System.out.println("Enemy attacks");
+                    enemyAttackSpeed+=enemy.attackSpeed;
+                    health-=enemyDamage;
+                    this.health = health;
+                    totalEnemyAttacks++;
+                    healthLost+=enemyDamage;
+                    System.out.println("\n"+Colors.BLACK_BOLD + "(X): " + enemy.name+Colors.ANSI_RESET+" attacked!");
+                    System.out.println("Health: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+" 💖"+Colors.RED_BOLD+" (-"+enemyDamage+")" +Colors.ANSI_RESET);
                 }
             }
 
@@ -159,7 +176,7 @@ public class Player {
     }
 
     public void checkStats() {
-        System.out.print("\nHealth: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
+        System.out.println("\nHealth: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
         System.out.println("Coins: "+ Colors.BLACK_BOLD+this.coins+" ⭕"+Colors.ANSI_RESET);
         System.out.println("Rubies: "+ Colors.BLACK_BOLD+this.rubies+" 💎"+Colors.ANSI_RESET);
     }
