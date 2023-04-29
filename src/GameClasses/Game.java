@@ -19,18 +19,18 @@ public class Game {
         this.player = player;
 
         // Enemies
-        Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5, Colors.BLACK_BOLD);
-        Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7, Colors.GREEN_BOLD);
-        Enemy Goblin = new Enemy("Goblin", 90, 7, 10, Colors.GREEN_BOLD);
-        Enemy Org = new Enemy("Org", 120, 6.5, 12, Colors.GREEN_BOLD);
-        Enemy Witch = new Enemy("Witch", 170, 5.5, 15, Colors.PURPLE_BOLD);
-        Enemy Vampire = new Enemy("Vampire", 190, 5, 17.5, Colors.PURPLE_BOLD);
-        Enemy Werewolf =  new Enemy("Werewolf", 220, 4.5, 19, Colors.BLACK_BOLD);
-        Enemy Golem = new Enemy("Golem", 240, 4, 22, Colors.BLACK_BOLD);
-        Enemy Wizard = new Enemy("Wizard", 280, 3.5, 25, Colors.PURPLE_BOLD);
-        Enemy Pharaoh = new Enemy("Pharaoh", 280, 3.5, 25, Colors.YELLOW_BOLD);
-        Enemy Dragon = new Enemy("Dragon", 300, 3, 27, Colors.RED_BOLD);
-        Enemy Phoenix = new Enemy("Phoenix", 350, 2.5, 30, Colors.YELLOW_BOLD);
+        Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5, Colors.BLACK_BOLD, 1); // loot code: 1
+        Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7, Colors.GREEN_BOLD, 1); // 1
+        Enemy Goblin = new Enemy("Goblin", 90, 7, 10, Colors.GREEN_BOLD, 1); // 1
+        Enemy Org = new Enemy("Org", 120, 6.5, 12, Colors.GREEN_BOLD, 2); // 2
+        Enemy Witch = new Enemy("Witch", 170, 5.5, 15, Colors.PURPLE_BOLD, 2); // 2
+        Enemy Vampire = new Enemy("Vampire", 190, 5, 17.5, Colors.PURPLE_BOLD, 3); // 3
+        Enemy Werewolf =  new Enemy("Werewolf", 220, 4.5, 19, Colors.BLACK_BOLD, 3); // 3
+        Enemy Golem = new Enemy("Golem", 240, 4, 22, Colors.BLACK_BOLD, 3); // 3
+        Enemy Wizard = new Enemy("Wizard", 280, 3.5, 25, Colors.PURPLE_BOLD, 4); // 4
+        Enemy Pharaoh = new Enemy("Pharaoh", 280, 3.5, 25, Colors.YELLOW_BOLD, 4); // 4
+        Enemy Dragon = new Enemy("Dragon", 300, 3, 27, Colors.RED_BOLD, 5); // 5
+        Enemy Phoenix = new Enemy("Phoenix", 350, 2.5, 30, Colors.YELLOW_BOLD, 5); // 5
 
         // Potions
         Potion rage = new Potion("Potion of Rage", 10, "+150% damage", 2, "d");
@@ -75,14 +75,14 @@ public class Game {
 //                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
 //                Thread.sleep(2000);
-                System.out.println(Colors.BLACK_BOLD+"Player: "+Colors.ANSI_RESET+"Oh, a... "+ enemies[6].color+enemies[6].name+Colors.ANSI_RESET+"?");
+                System.out.println(Colors.BLACK_BOLD+"Player: "+Colors.ANSI_RESET+"Oh, a... "+ enemies[0].color+enemies[0].name+Colors.ANSI_RESET+"?");
 //                Thread.sleep(2000);
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f": {
                             // Fight
-                            player.fight(enemies[6], selectedPotion); // skeleton and selected potion
+                            player.fight(enemies[0], selectedPotion); // skeleton and selected potion
                             p = -1;
                             break;
                         }
