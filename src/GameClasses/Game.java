@@ -53,10 +53,9 @@ public class Game {
         potions = new Potion[]{rage, shield, regeneration, time, blacksmith};
 
         player.weapons = new Weapon[]{Knife};
-        player.potions = new Potion[]{};
+        player.potions = new Potion[5];
 
         selectedPotion = null;
-//        player.potions = new Potion[] {rage};
     }
 
     public void actI() throws InterruptedException {
@@ -173,7 +172,6 @@ public class Game {
                                     k = 0;
                                     System.out.println(Colors.GREEN_BOLD + player.weapons[p].name + " Successfully bought! " + Colors.RED_BOLD + "(-" + weapons[i + 1].cost + ")");
                                     p++;
-                                    break;
                                 } else {
                                     System.out.println(Colors.RED_BOLD+"\nCould not buy " + weapons[i + 1].name);
                                     k = -1;
@@ -202,7 +200,6 @@ public class Game {
                     if (player.weapons.length == 1) {
                         System.out.println(Colors.RED_BOLD + "It seems like you don't have any guns! Come back next time");
                         k = -1;
-                        break;
                     }
                     for (int i = 1; i < player.weapons.length; i++) {
                         options[p] = player.weapons[i].name + " Ammo";
@@ -233,8 +230,37 @@ public class Game {
                 }
                 // Buying Potions
                 else if (choice.equalsIgnoreCase("p")) {
-                    System.out.println("Buying Potions");
-                    k = -1;
+
+                    GameLogic.printHeader("Potions", 15);
+
+                    String[] options = new String[potions.length];
+                    String[] keys = new String[potions.length];
+                    for (int i = 0;i< potions.length;i++) {
+                        options[i] = potions[i].name + Colors.BLUE_BOLD + " ("+potions[i].value+")";
+                        keys[i] = potions[i].name.toLowerCase().charAt(potions[i].name.length()-2)+"";
+                    }
+
+                    String potion = GameLogic.getInput("", options, keys);
+                    for (int i = 0;i< potions.length;i++) {
+                        if (keys[i].equalsIgnoreCase(potion)) {
+                            // Getting the info of the potion
+                            potions[i].getInfo();
+
+                            if (GameLogic.getInput("", new String[]{"Buy", "Cancel"}, new String[]{"b", "x"}).equals("b")) {
+                                // check for enough money
+                                if (player.rubies >= potions[i].value) {
+                                    player.rubies -= potions[i].value;
+                                    player.potions[i] = potions[i];
+                                    System.out.println(Colors.GREEN_BOLD+"Successfully bought: "+potions[i].name);
+                                    k = 0;
+                                } else {
+                                    System.out.println(Colors.RED_BOLD+"\nCould not buy " + potions[i].name);
+                                }
+                            }
+                        }
+                    }
+                    GameLogic.getInput("Enter any key to continue...", new String[] {}, new String[] {});
+                    k = 0;
                 }
             } while (k == -1);
         }

@@ -17,7 +17,7 @@ public class Player {
     public Player() {
         health = 100;
         coins = 2500;
-        rubies = 0;
+        rubies = 10;
         weapons = new Weapon[5];
         potions = new Potion[5];
         qty = new int[5];
@@ -31,8 +31,14 @@ public class Player {
             return 1;
     }
 
-    public int checkPotions() {
-        int l = this.potions.length;
+    public int checkPotions() throws NullPointerException {
+        int l = 0;
+        for (int i= 0;i<5;i++) {
+            if (this.potions[i] == null)
+                continue;
+            else
+                l++;
+        }
         if (l>0) {
             for (int i = 0;i<l;i++) {
                 qty[i] +=1;

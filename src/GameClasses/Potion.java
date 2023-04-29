@@ -1,5 +1,8 @@
 package src.GameClasses;
 
+import src.GameLogic;
+import src.colors.Colors;
+
 public class Potion {
     public String name;
     public int duration;
@@ -15,10 +18,6 @@ public class Potion {
         this.key = key;
     }
 
-    public void getInfo() {
-        System.out.println(effect);
-    }
-
     public double use(double damage) {
         if (key.equals("d")) {
             damage += (150*damage) / 100;
@@ -29,6 +28,13 @@ public class Potion {
         }
         else 
             return 0;
+    }
+
+    public void getInfo() {
+        GameLogic.printHeader(this.name, 25);
+        System.out.println(Colors.ANSI_RESET+"\nEffect: "+Colors.BLACK_BOLD+effect+" 🌟");
+        System.out.println(Colors.ANSI_RESET+"Duration: "+Colors.BLACK_BOLD+duration+" ⌚");
+        System.out.println(Colors.ANSI_RESET+"Value: "+Colors.BLACK_BOLD+value+" 💎");
     }
 
 }
