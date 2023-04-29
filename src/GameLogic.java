@@ -74,4 +74,19 @@ public class GameLogic {
 
         Thread.sleep(2000);
     }
+
+    public static void genLoot(Enemy enemy) {
+        // generates loots depending on the enemy
+        System.out.println("");
+        System.out.println(enemy.lootCode);
+        int lootCode = enemy.lootCode;
+
+        int minCoins = 0;
+        int maxCoins = 0;
+        
+        switch (lootCode) {
+            case 1: {
+            }
+        }
+    }
 }
