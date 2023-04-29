@@ -7,12 +7,16 @@ public class Enemy {
     public double health;
     public double attackSpeed;
     public double damage;
+    public String color;
+    public int lootCode;
 
-    public Enemy(String name, double health, double attackSpeed, double damage) {
+    public Enemy(String name, double health, double attackSpeed, double damage, String color, int lootCode) {
         this.name = name;
         this.health = health;
         this.attackSpeed = attackSpeed;
         this.damage = damage;
+        this.color = color;
+        this.lootCode = lootCode;
     }
 
     public void checkStats(double damage) {
