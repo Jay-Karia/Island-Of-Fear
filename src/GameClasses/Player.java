@@ -223,8 +223,11 @@ public class Player {
             }
 
         // Fight Summary
-        
         GameLogic.genFightSummary(ammoUsed, healthLost, totalAttacks, totalEnemyAttacks);
+
+        // Loot
+        GameLogic.genLoot(enemy);
+        
 
     }
 
