@@ -112,9 +112,9 @@ public class Player {
 
             // Before fight starts
             if (selectedWeapon.name.equalsIgnoreCase("knife"))
-                System.out.println(Colors.ANSI_RESET+"\nPlayer Health: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nWeapon Health: "+Colors.GREEN_BOLD+selectedWeapon.health+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
+                System.out.println(Colors.ANSI_RESET+"\nPlayer Health: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nWeapon Health: "+Colors.GREEN_BOLD+selectedWeapon.health+enemy.color+"\n"+enemy.name+Colors.ANSI_RESET+" Health: "+Colors.BLACK_BOLD+enemy.health);
              else
-                System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nAmmo: "+Colors.GREEN_BOLD+selectedWeapon.ammo+Colors.ANSI_RESET+"\n"+enemy.name+" Health: "+Colors.BLACK_BOLD+enemy.health);
+                System.out.println(Colors.ANSI_RESET+"\nHealth: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+"\nAmmo: "+Colors.GREEN_BOLD+selectedWeapon.ammo+enemy.color+"\n"+enemy.name+Colors.ANSI_RESET+" Health: "+Colors.BLACK_BOLD+enemy.health);
 
             long startTime = System.nanoTime();
             long endTime = 0;
@@ -140,18 +140,33 @@ public class Player {
                     if (choice.equalsIgnoreCase("z")) {
                         System.out.println(Colors.BLACK_BOLD + selectedWeapon.name+ Colors.ANSI_RESET +" attack");
                         
-                        // System.out.println(timeElapsed);
+                        // Potion effect
                         if (selectedPotion!=null) {
                             if (selectedPotion.duration >= timeElapsed) {
+                                // Potion of Rage
                                 if (selectedPotion.key.equals("d"))
                                     damage = selectedPotion.use(selectedWeapon.damage);
+                                // Protector's Shield
                                 else if (selectedPotion.key.equals("s"))
                                     enemyDamage = selectedPotion.use(enemy.damage);
+                                // Potion of Regeneration
+                                else if (selectedPotion.key.equals("r")) {
+                                    this.health = 100;
+                                    health = 100;
+                                }
+                                // Sorcerer of Time
+                                else if (selectedPotion.key.equals("t")) {
+                                   enemyAttackSpeed = (enemy.attackSpeed * 50) * 100;
+                                }
+                                // Blacksmith's Potion
+                                
                             } else {
                                 damage = selectedWeapon.damage;
                                 enemyDamage = enemy.damage;
+                                this.health = health;
+                                enemyAttackSpeed = enemy.attackSpeed;
                             }
-                        }                 
+                        }
                         // Attack
                         if (damage > enemyHealth)
                             damage = enemyHealth;
@@ -164,7 +179,10 @@ public class Player {
                             ammo-=1;
 
                         selectedWeapon.ammo = ammo;
-                        ammoUsed++;
+                        if (selectedWeapon.name.equalsIgnoreCase("knife")) {
+                            ammoUsed += 2;
+                        } else
+                            ammoUsed++;
                     }
 
                     enemy.health = enemyHealth;
@@ -199,12 +217,13 @@ public class Player {
                     this.health = health;
                     totalEnemyAttacks++;
                     healthLost+=enemyDamage;
-                    System.out.println("\n"+Colors.BLACK_BOLD + "(X): " + enemy.name+Colors.ANSI_RESET+" attacked!");
+                    System.out.println("\n"+enemy.color + "(X): " + enemy.name+Colors.ANSI_RESET+" attacked!");
                     System.out.println("Health: "+Colors.BLACK_BOLD+this.health+Colors.ANSI_RESET+" 💖"+Colors.RED_BOLD+" (-"+enemyDamage+")" +Colors.ANSI_RESET);
                 }
             }
 
         // Fight Summary
+        
         GameLogic.genFightSummary(ammoUsed, healthLost, totalAttacks, totalEnemyAttacks);
 
     }
