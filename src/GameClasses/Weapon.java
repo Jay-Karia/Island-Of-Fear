@@ -31,7 +31,4 @@ public class Weapon {
         System.out.println(Colors.WHITE_BOLD+"Attack Speed: "+this.attackSpeed+"s ️🏃‍♂️");
     }
 
-    public void checkHealth() {
-
-    }
 }

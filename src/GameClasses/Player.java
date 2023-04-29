@@ -16,7 +16,7 @@ public class Player {
 
     public Player() {
         health = 100;
-        coins = 20000;
+        coins = 2500;
         rubies = 0;
         weapons = new Weapon[5];
         potions = new Potion[5];

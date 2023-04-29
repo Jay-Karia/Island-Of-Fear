@@ -44,16 +44,16 @@ public class Game {
         // Weapons
         Weapon Knife = new Weapon("Knife", 100, 0, 15, -1, 2.5);
         Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 10, 2);
-        Weapon Submachine = new Weapon("Submachine", 200, 3500, 35, 10, 1);
-        Weapon Missile = new Weapon("Missile", 250, 5000, 80, 15, 5.5);
-        Weapon Rifle = new Weapon("Rifle", 300, 7000, 60, 15, 4);
+        Weapon Submachine = new Weapon("Submachine", 200, 3500, 15, 10, 0.5);
+        Weapon Rifle = new Weapon("Rifle", 250, 5000, 60, 5, 4);
+        Weapon Missile = new Weapon("Missile", 300, 7000, 80, 5, 5.5);
 
         enemies = new Enemy[]{Skeleton, Zombie, Goblin, Org, Witch, Vampire, Werewolf, Golem, Wizard, Pharaoh, Dragon, Phoenix};
         weapons = new Weapon[]{Knife, Pistol, Submachine, Missile, Rifle};
         potions = new Potion[]{rage, shield, regeneration, time, blacksmith};
 
-        player.weapons = new Weapon[]{Knife, Missile};
-        player.potions = new Potion[]{rage};
+        player.weapons = new Weapon[]{Knife};
+        player.potions = new Potion[]{};
 
         selectedPotion = null;
 //        player.potions = new Potion[] {rage};
@@ -82,7 +82,7 @@ public class Game {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f": {
                             // Fight
-//                            player.fight(enemies[0], selectedPotion); // skeleton and selected potion
+                            player.fight(enemies[0], selectedPotion); // skeleton and selected potion
                             p = -1;
                             break;
                         }
@@ -149,6 +149,11 @@ public class Game {
                     String[] options = new String[weapons.length - 1];
                     String[] keys = new String[weapons.length - 1];
                     int p = 0;
+                    int u = 0;
+                    StringBuilder playerWeapons = new StringBuilder();
+                    for (int i = 0; i < player.weapons.length; i++) {
+                        playerWeapons.append(player.weapons[i].name);
+                    }
                     for (int i = 1; i < weapons.length; i++) {
                         options[p] = weapons[i].name + Colors.YELLOW_BOLD + " (" + weapons[i].cost + ")" + Colors.ANSI_RESET;
                         keys[p] = weapons[i].name.toLowerCase().charAt(0) + "";
@@ -170,21 +175,65 @@ public class Game {
                                     p++;
                                     break;
                                 } else {
-                                    System.out.println("Could not buy " + weapons[i + 1].name);
+                                    System.out.println(Colors.RED_BOLD+"\nCould not buy " + weapons[i + 1].name);
                                     k = -1;
                                 }
-                                GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
-                            } else
-                                k = -1;
+
+                            }
 
                         }
                     }
-                    break;
+                    k = -1;
+                    GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
                 } else if (choice.equalsIgnoreCase("x")) {
                     k = 0;
                     break;
                 } else if (choice.equalsIgnoreCase("c")) {
                     player.checkStats();
+                    k = -1;
+                }
+                // Buying Ammo
+                else if (choice.equalsIgnoreCase("a")) {
+                    goldsmith.speak("The heart of a weapon... Ammo!");
+                    String[] options = new String[player.weapons.length - 1];
+                    String[] keys = new String[player.weapons.length - 1];
+
+                    int p = 0;
+                    if (player.weapons.length == 1) {
+                        System.out.println(Colors.RED_BOLD + "It seems like you don't have any guns! Come back next time");
+                        k = -1;
+                        break;
+                    }
+                    for (int i = 1; i < player.weapons.length; i++) {
+                        options[p] = player.weapons[i].name + " Ammo";
+                        keys[p] = player.weapons[i].name.toLowerCase().charAt(0) + "";
+                        p++;
+                    }
+
+                    String ammo = GameLogic.getInput("", options, keys);
+                    switch (ammo) {
+                        case "p": {
+                            GameLogic.buyAmmo(player, weapons[1], new int[]{200, 400, 600, 800}, new int[]{5, 10, 15, 20});
+                            break;
+                        }
+                        case "s": {
+                            GameLogic.buyAmmo(player, weapons[2], new int[]{150, 350, 50, 750}, new int[]{5, 10, 15, 20});
+                            break;
+                        }
+                        case "r": {
+                            GameLogic.buyAmmo(player, weapons[3], new int[]{250, 600, 800, 1250}, new int[]{2, 5, 7, 10});
+                            break;
+                        }
+                        case "m": {
+                            GameLogic.buyAmmo(player, weapons[4], new int[]{150, 750, 1000, 1500}, new int[]{2, 5, 7, 10});
+                            break;
+                        }
+                    }
+                    k = -1;
+                }
+                // Buying Potions
+                else if (choice.equalsIgnoreCase("p")) {
+                    System.out.println("Buying Potions");
                     k = -1;
                 }
             } while (k == -1);

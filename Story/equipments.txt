@@ -7,10 +7,10 @@ Potions:
 
 src.Main-Weapons:
 1) Knife (100) (Free)
-2) Pistol (150) (2000)
-3) Submachine (200) (3500)
-4) Flame Thrower (250) (5000)
-5) Rifle (300) (7000)
+2) Pistol (150) (2000) (9mm pistol ammo)
+3) Submachine (200) (3500) (45ACP Subamchine ammo)
+4) Rifle (250) (5000) (Cartridge Rifle Ammo)
+5) Missile (300) (7000) (Bomb Missile Ammo)
 
 Side-Weapons:
 1) Hand Grenade
