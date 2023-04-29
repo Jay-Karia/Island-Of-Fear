@@ -8,7 +8,6 @@ import java.util.*;
 //import java
 public class Player {
     public double health;
-//    public String name;
     public Weapon[] weapons;
     public Potion[] potions;
     public int[] qty;
@@ -16,15 +15,10 @@ public class Player {
     public long rubies;
 
     public Player() {
-        Scanner sc = new Scanner(System.in);
-
-//        System.out.println("Enter your name");
-//        name = sc.next();
-//        name = "Jay";
         health = 100;
-        coins = 0;
+        coins = 20000;
         rubies = 0;
-        weapons = new Weapon[]{};
+        weapons = new Weapon[5];
         potions = new Potion[5];
         qty = new int[5];
     }
@@ -224,6 +218,7 @@ public class Player {
 
         // Fight Summary
         GameLogic.genFightSummary(ammoUsed, healthLost, totalAttacks, totalEnemyAttacks);
+        GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
 
         // Loot
         int[] loot = GameLogic.genLoot(enemy);
@@ -234,9 +229,10 @@ public class Player {
     }
 
     public void checkStats() throws InterruptedException {
+        GameLogic.printHeader("Stats", 10);
         System.out.println(Colors.RED_BOLD_BRIGHT+"\nHealth: "+this.health+" 💖"+Colors.ANSI_RESET);
         System.out.println(Colors.YELLOW_BOLD_BRIGHT+"Coins: "+this.coins+" ⭕"+Colors.ANSI_RESET);
         System.out.println(Colors.BLUE_BOLD_BRIGHT+"Rubies: "+this.rubies+" 💎"+Colors.ANSI_RESET);
-        Thread.sleep(2000);
+        GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
     }
 }

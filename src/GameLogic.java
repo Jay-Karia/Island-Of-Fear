@@ -75,7 +75,7 @@ public class GameLogic {
         Thread.sleep(2000);
     }
 
-    public static int[] genLoot(Enemy enemy) throws InterruptedException {
+    public static int[] genLoot(Enemy enemy) throws InterruptedException, IllegalArgumentException {
         // generates loots depending on the enemy
         System.out.println("");
         int lootCode = enemy.lootCode - 1;
@@ -92,15 +92,22 @@ public class GameLogic {
 
         String[] potions = new String[] {};
 
+        int rubies = 0;
         int coins = rand.nextInt(maxCoins[lootCode]-minCoins[lootCode]) + minCoins[lootCode];
-        int rubies = rand.nextInt(maxRubies[lootCode]-minRubies[lootCode]) + minRubies[lootCode];
+        if (lootCode == 0)
+            rubies = 0;
+         else
+            rubies = rand.nextInt(maxRubies[lootCode]-minRubies[lootCode]) + minRubies[lootCode];
+
         int ammo = rand.nextInt(maxAmmo[lootCode]-minAmmo[lootCode]) + minAmmo[lootCode];
 
         Thread.sleep(3000); // 3 seconds
 
-        printHeader("Loot", 20);
+        printHeader("Loot", 10);
         System.out.println(Colors.YELLOW_BOLD_BRIGHT+"Coins: "+coins+" ⭕"+(rubies==0 ? "" :Colors.BLUE_BOLD_BRIGHT+"\nRubies: " + rubies+" 💎"+Colors.WHITE_BOLD_BRIGHT+"\nAmmo: "+ammo+" 🔫"+Colors.ANSI_RESET));
-        String choice = getInput("", new String[] {"Pick Up"}, new String[] {"p"});
+        getInput("", new String[] {"Pick Up"}, new String[] {"p"});
+
+        GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
 
         int[] loot = new int[] {coins, rubies, ammo};
 
