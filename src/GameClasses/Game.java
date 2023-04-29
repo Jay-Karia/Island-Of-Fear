@@ -19,18 +19,18 @@ public class Game {
         this.player = player;
 
         // Enemies
-        Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5);
-        Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7);
-        Enemy Goblin = new Enemy("Goblin", 90, 7, 10);
-        Enemy Org = new Enemy("Org", 120, 6.5, 12);
-        Enemy Witch = new Enemy("Witch", 170, 5.5, 15);
-        Enemy Vampire = new Enemy("Vampire", 190, 5, 17.5);
-        Enemy Werewolf =  new Enemy("Werewolf", 220, 4.5, 19);
-        Enemy Golem = new Enemy("Golem", 240, 4, 22);
-        Enemy Wizard = new Enemy("Wizard", 280, 3.5, 25);
-        Enemy Pharaoh = new Enemy("Pharaoh", 280, 3.5, 25);
-        Enemy Dragon = new Enemy("Dragon", 300, 3, 27);
-        Enemy Phoenix = new Enemy("Phoenix", 350, 2.5, 30);
+        Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5, Colors.BLACK_BOLD);
+        Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7, Colors.GREEN_BOLD);
+        Enemy Goblin = new Enemy("Goblin", 90, 7, 10, Colors.GREEN_BOLD);
+        Enemy Org = new Enemy("Org", 120, 6.5, 12, Colors.GREEN_BOLD);
+        Enemy Witch = new Enemy("Witch", 170, 5.5, 15, Colors.PURPLE_BOLD);
+        Enemy Vampire = new Enemy("Vampire", 190, 5, 17.5, Colors.PURPLE_BOLD);
+        Enemy Werewolf =  new Enemy("Werewolf", 220, 4.5, 19, Colors.BLACK_BOLD);
+        Enemy Golem = new Enemy("Golem", 240, 4, 22, Colors.BLACK_BOLD);
+        Enemy Wizard = new Enemy("Wizard", 280, 3.5, 25, Colors.PURPLE_BOLD);
+        Enemy Pharaoh = new Enemy("Pharaoh", 280, 3.5, 25, Colors.YELLOW_BOLD);
+        Enemy Dragon = new Enemy("Dragon", 300, 3, 27, Colors.RED_BOLD);
+        Enemy Phoenix = new Enemy("Phoenix", 350, 2.5, 30, Colors.YELLOW_BOLD);
 
         // Potions
         Potion rage = new Potion("Potion of Rage", 10, "+150% damage", 2, "d");
@@ -38,20 +38,21 @@ public class Game {
         Potion regeneration = new Potion("Potion of Regeneration", 0, "Restores 100% of health", 5, "r");
         Potion time = new Potion("Sorcerer of Time", 10, "Slows down enemies", 7, "t");
         Potion blacksmith = new Potion("BlackSmith's Secret", 10, "Restores 100% health of equipment", 10, "b");
+        
 
         // Weapons
         Weapon Knife = new Weapon("Knife", 100, 0, 15, -1, 2.5);
         Weapon Pistol = new Weapon("Pistol", 150, 2000, 25, 10, 2);
         Weapon Submachine = new Weapon("Submachine", 200, 3500, 35, 10, 1);
-        Weapon Missile = new Weapon("Missile", 250, 5000, 50, 15, 3.5);
+        Weapon Missile = new Weapon("Missile", 250, 5000, 80, 15, 5.5);
         Weapon Rifle = new Weapon("Rifle", 300, 7000, 60, 15, 4);
 
         enemies = new Enemy[] {Skeleton, Zombie, Goblin, Org, Witch, Vampire, Werewolf, Golem, Wizard, Pharaoh, Dragon, Phoenix};
         weapons = new Weapon[] {Knife, Pistol, Submachine, Missile, Rifle};
         potions = new Potion[] {rage, shield, regeneration, time, blacksmith};
 
-        player.weapons = new Weapon[] {Knife, Rifle};
-        player.potions = new Potion[] {rage, shield, regeneration};
+        player.weapons = new Weapon[] {Knife, Rifle, Submachine, Pistol, Missile};
+        player.potions = new Potion[] {rage, shield, regeneration, time};
 
         selectedPotion = null;
 //        player.potions = new Potion[] {rage};
@@ -74,14 +75,14 @@ public class Game {
 //                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
 //                Thread.sleep(2000);
-                System.out.println("Player: Oh, a... "+ Colors.GREEN_BOLD+enemies[11].name+Colors.ANSI_RESET+"?");
+                System.out.println(Colors.BLACK_BOLD+"Player: "+Colors.ANSI_RESET+"Oh, a... "+ enemies[6].color+enemies[6].name+Colors.ANSI_RESET+"?");
 //                Thread.sleep(2000);
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f": {
                             // Fight
-                            player.fight(enemies[11], selectedPotion); // skeleton and selected potion
+                            player.fight(enemies[6], selectedPotion); // skeleton and selected potion
                             p = -1;
                             break;
                         }
