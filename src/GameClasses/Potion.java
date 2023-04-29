@@ -21,7 +21,7 @@ public class Potion {
 
     public double use(double damage) {
         if (key.equals("d")) {
-            damage = (150*damage) / 100;
+            damage += (150*damage) / 100;
             return damage;
         } else if (key.equals("s")) {
             damage = (50*damage) / 100;

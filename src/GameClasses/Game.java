@@ -21,12 +21,12 @@ public class Game {
         // Enemies
         Enemy Skeleton = new Enemy("Skeleton", 50, 10, 5, Colors.BLACK_BOLD, 1); // loot code: 1
         Enemy Zombie = new Enemy("Zombie", 75, 8.5, 7, Colors.GREEN_BOLD, 1); // 1
-        Enemy Goblin = new Enemy("Goblin", 90, 7, 10, Colors.GREEN_BOLD, 1); // 1
+        Enemy Goblin = new Enemy("Goblin", 90, 7, 10, Colors.GREEN_BOLD, 1); // 2
         Enemy Org = new Enemy("Org", 120, 6.5, 12, Colors.GREEN_BOLD, 2); // 2
-        Enemy Witch = new Enemy("Witch", 170, 5.5, 15, Colors.PURPLE_BOLD, 2); // 2
+        Enemy Witch = new Enemy("Witch", 170, 5.5, 15, Colors.PURPLE_BOLD, 2); // 3
         Enemy Vampire = new Enemy("Vampire", 190, 5, 17.5, Colors.PURPLE_BOLD, 3); // 3
         Enemy Werewolf =  new Enemy("Werewolf", 220, 4.5, 19, Colors.BLACK_BOLD, 3); // 3
-        Enemy Golem = new Enemy("Golem", 240, 4, 22, Colors.BLACK_BOLD, 3); // 3
+        Enemy Golem = new Enemy("Golem", 240, 4, 22, Colors.BLACK_BOLD, 3); // 4
         Enemy Wizard = new Enemy("Wizard", 280, 3.5, 25, Colors.PURPLE_BOLD, 4); // 4
         Enemy Pharaoh = new Enemy("Pharaoh", 280, 3.5, 25, Colors.YELLOW_BOLD, 4); // 4
         Enemy Dragon = new Enemy("Dragon", 300, 3, 27, Colors.RED_BOLD, 5); // 5
@@ -75,14 +75,14 @@ public class Game {
 //                Thread.sleep(5000);
                 System.out.println("\nWhoosh!!!");
 //                Thread.sleep(2000);
-                System.out.println(Colors.BLACK_BOLD+"Player: "+Colors.ANSI_RESET+"Oh, a... "+ enemies[0].color+enemies[0].name+Colors.ANSI_RESET+"?");
+                System.out.println(Colors.BLACK_BOLD+"Player: "+Colors.ANSI_RESET+"Oh, a... "+ enemies[3].color+enemies[3].name+Colors.ANSI_RESET+"?");
 //                Thread.sleep(2000);
                 int p = -1;
                 do {
                     switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
                         case "f": {
                             // Fight
-                            player.fight(enemies[0], selectedPotion); // skeleton and selected potion
+                            player.fight(enemies[3], selectedPotion); // skeleton and selected potion
                             p = -1;
                             break;
                         }
@@ -97,14 +97,14 @@ public class Game {
                                 // use potion
                                 String[] options = new String[player.potions.length];
                                 String[] keys = new String[player.potions.length];
-                                
+
                                 for (int i =0;i<options.length;i++) {
                                     options[i] = player.potions[i].name + " x" + player.qty[i];
                                     keys[i] = player.potions[i].name.substring(player.potions[i].name.length()-2, player.potions[i].name.length()-1); }
-                                
-                                
+
+
                                 String choice = GameLogic.getInput("", options, keys);
-                                
+
                                 for (int i = 0;i<keys.length;i++) {
                                     if (keys[i].equals(choice)) {
                                         selectedPotion = potions[i];

@@ -226,15 +226,17 @@ public class Player {
         GameLogic.genFightSummary(ammoUsed, healthLost, totalAttacks, totalEnemyAttacks);
 
         // Loot
-        GameLogic.genLoot(enemy);
-        
+        int[] loot = GameLogic.genLoot(enemy);
+        this.coins += loot[0];
+        this.rubies += loot[1];
+        selectedWeapon.ammo += loot[2];
 
     }
 
     public void checkStats() throws InterruptedException {
-        System.out.println("\nHealth: "+ Colors.BLACK_BOLD+this.health+" 💖"+Colors.ANSI_RESET);
-        System.out.println("Coins: "+ Colors.BLACK_BOLD+this.coins+" ⭕"+Colors.ANSI_RESET);
-        System.out.println("Rubies: "+ Colors.BLACK_BOLD+this.rubies+" 💎"+Colors.ANSI_RESET);
+        System.out.println(Colors.RED_BOLD_BRIGHT+"\nHealth: "+this.health+" 💖"+Colors.ANSI_RESET);
+        System.out.println(Colors.YELLOW_BOLD_BRIGHT+"Coins: "+this.coins+" ⭕"+Colors.ANSI_RESET);
+        System.out.println(Colors.BLUE_BOLD_BRIGHT+"Rubies: "+this.rubies+" 💎"+Colors.ANSI_RESET);
         Thread.sleep(2000);
     }
 }

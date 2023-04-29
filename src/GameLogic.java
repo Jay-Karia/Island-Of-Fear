@@ -1,6 +1,6 @@
 package src;
 import src.colors.Colors;
-import java.util.Scanner;
+import java.util.*;
 
 import src.GameClasses.*;
 public class GameLogic {
@@ -75,18 +75,35 @@ public class GameLogic {
         Thread.sleep(2000);
     }
 
-    public static void genLoot(Enemy enemy) {
+    public static int[] genLoot(Enemy enemy) throws InterruptedException {
         // generates loots depending on the enemy
         System.out.println("");
-        System.out.println(enemy.lootCode);
-        int lootCode = enemy.lootCode;
+        int lootCode = enemy.lootCode - 1;
+        Random rand = new Random();
 
-        int minCoins = 0;
-        int maxCoins = 0;
-        
-        switch (lootCode) {
-            case 1: {
-            }
-        }
+        int[] minCoins = new int[] {200, 300, 600, 1000, 1700};
+        int[] maxCoins = new int[] {300, 550, 800, 1500, 2000};
+
+        int[] minRubies = new int[] {0, 1, 2, 4, 7};
+        int[] maxRubies = new int[] {0, 2, 3, 5, 10};
+
+        int[] minAmmo = new int[] {2, 5, 10, 15, 20};
+        int[] maxAmmo = new int[] {5, 9, 14, 20, 25};
+
+        String[] potions = new String[] {};
+
+        int coins = rand.nextInt(maxCoins[lootCode]-minCoins[lootCode]) + minCoins[lootCode];
+        int rubies = rand.nextInt(maxRubies[lootCode]-minRubies[lootCode]) + minRubies[lootCode];
+        int ammo = rand.nextInt(maxAmmo[lootCode]-minAmmo[lootCode]) + minAmmo[lootCode];
+
+        Thread.sleep(3000); // 3 seconds
+
+        printHeader("Loot", 20);
+        System.out.println(Colors.YELLOW_BOLD_BRIGHT+"Coins: "+coins+" ⭕"+(rubies==0 ? "" :Colors.BLUE_BOLD_BRIGHT+"\nRubies: " + rubies+" 💎"+Colors.WHITE_BOLD_BRIGHT+"\nAmmo: "+ammo+" 🔫"+Colors.ANSI_RESET));
+        String choice = getInput("", new String[] {"Pick Up"}, new String[] {"p"});
+
+        int[] loot = new int[] {coins, rubies, ammo};
+
+        return loot;
     }
 }
