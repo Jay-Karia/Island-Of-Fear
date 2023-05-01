@@ -30,9 +30,8 @@ public class Enemy {
             return 1;
     }
 
-    public double attack() throws InterruptedException {
-        Thread.sleep((long) attackSpeed*1000);
-        System.out.println("Enemy Attacked");
-        return damage;
+    public void speak(String dialogue) {
+        System.out.println(this.color+this.name+": "+Colors.ANSI_RESET+dialogue);
     }
+
 }

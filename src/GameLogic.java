@@ -6,21 +6,21 @@ import java.util.*;
 
 import src.GameClasses.*;
 
-public class GameLogic {
-    public static void printSeparator(int n) {
+public interface GameLogic {
+    static void printSeparator(int n) {
         for (int i = 1; i <= n; i++) {
             System.out.print(Colors.BLACK_BOLD + "-");
         }
         System.out.println();
     }
 
-    public static void printHeader(String header, int n) {
+    static void printHeader(String header, int n) {
         printSeparator(n);
         System.out.println(Colors.BLACK_BOLD + header);
         printSeparator(n);
     }
 
-    public static String getInput(String statement, String[] options, String[] keys) {
+    static String getInput(String statement, String[] options, String[] keys) {
         Scanner sc = new Scanner(System.in);
 
         System.out.println(Colors.ANSI_RESET + statement);
@@ -48,11 +48,11 @@ public class GameLogic {
         return choice;
     }
 
-    public static void readStory() throws InterruptedException {
+    static void readStory() throws InterruptedException {
         writeAnimation("This is the story of the game");
     }
 
-    public static void writeAnimation(String sentence) throws InterruptedException {
+    static void writeAnimation(String sentence) throws InterruptedException {
         int delay = 50;
         int l = sentence.length();
         for (int i = 0; i < l; i++) {
@@ -61,13 +61,13 @@ public class GameLogic {
         }
     }
 
-    public static void createNewGame() throws InterruptedException {
+    static void createNewGame() throws InterruptedException {
         // Initialize Game Variables
         Game game = new Game();
         game.actI();
     }
 
-    public static void genFightSummary(double ammoUsed, double healthLost, double totalAttacks, double totalEnemyAttacks) throws InterruptedException {
+    static void genFightSummary(double ammoUsed, double healthLost, double totalAttacks, double totalEnemyAttacks) throws InterruptedException {
         Thread.sleep(2000);
         System.out.println();
         GameLogic.printHeader(Colors.BLACK_BOLD + "Fight Summary" + Colors.ANSI_RESET, 15);
@@ -79,7 +79,7 @@ public class GameLogic {
         Thread.sleep(2000);
     }
 
-    public static int[] genLoot(Enemy enemy) throws InterruptedException, IllegalArgumentException {
+    static int[] genLoot(Enemy enemy) throws InterruptedException, IllegalArgumentException {
         // generates loots depending on the enemy
         System.out.println("");
         int lootCode = enemy.lootCode - 1;
@@ -111,14 +111,12 @@ public class GameLogic {
         System.out.println(Colors.YELLOW_BOLD_BRIGHT + "Coins: " + coins + " ⭕" + (rubies == 0 ? "" : Colors.BLUE_BOLD_BRIGHT + "\nRubies: " + rubies + " 💎" + Colors.WHITE_BOLD_BRIGHT + "\nAmmo: " + ammo + " 🔫" + Colors.ANSI_RESET));
         getInput("", new String[]{"Pick Up"}, new String[]{"p"});
 
-        GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
-
         int[] loot = new int[]{coins, rubies, ammo};
 
         return loot;
     }
 
-    public static void buyAmmo(Player player, Weapon weapon, int[] cost, int[] qty) throws InterruptedException {
+    static void buyAmmo(Player player, Weapon weapon, int[] cost, int[] qty) throws InterruptedException {
         GameLogic.printHeader(weapon.name + " Ammo", 20);
         String[] options = new String[cost.length];
         String[] keys = new String[cost.length];
@@ -140,5 +138,81 @@ public class GameLogic {
             System.out.println(Colors.RED_BOLD + "You dont's have enough money to buy ammo!");
         }
         getInput("Enter any key to continue...", new String[]{}, new String[]{});
+    }
+
+    static void genFight(Player player, Enemy enemy, Potion[] potions, Potion selectedPotion) throws InterruptedException {
+        int p = -1;
+
+        do {
+            switch (GameLogic.getInput("", new String[]{"Fight 🔪", "Run Away 🏃‍♂️", "Drink Potion 🍾", "Check Stats 📊"}, new String[]{"f", "r", "p", "c"})) {
+                case "f": {
+                    // Fight
+                    player.fight(enemy, selectedPotion); // skeleton and selected potion
+                    p = -1;
+                    break;
+                }
+                case "r": {
+                    System.out.println(Colors.BLACK_BOLD + "\nWarriors are the ones who always try");
+                    p = -1;
+                    break;
+                }
+                case "p": {
+                    // Drink Potion
+                    if (player.checkPotions() == 1) {
+                        // use potion
+                        String[] options = new String[player.potions.length];
+                        String[] keys = new String[player.potions.length];
+
+                        for (int i = 0; i < options.length; i++) {
+                            options[i] = player.potions[i].name + " x" + player.qty[i];
+                            keys[i] = player.potions[i].name.substring(player.potions[i].name.length() - 2, player.potions[i].name.length() - 1);
+                        }
+
+
+                        String choice = GameLogic.getInput("", options, keys);
+
+                        for (int i = 0; i < keys.length; i++) {
+                            if (keys[i].equals(choice)) {
+                                selectedPotion = potions[i];
+                                player.qty[i] -= 1;
+                            }
+                        }
+                    } else {
+                        System.out.println(Colors.ANSI_RESET + "You currently have " + Colors.RED_BOLD + "0" + Colors.ANSI_RESET + " potions");
+                        GameLogic.getInput("\nEnter any key to continue...", new String[]{}, new String[]{});
+                    }
+                    p = 0;
+                    break;
+                }
+                case "c": {
+                    player.checkStats();
+                    p = 0;
+                }
+            }
+        } while (p == 0);
+    }
+
+    static void openMap(int act) {
+        String[] maps = new String[] {
+                """
+                |   _____| n |_____     \\_
+                |   |_|    .    |_|____
+                |   |_|    R1  . w ____
+                |   |_|    .    |_|    
+                |   |_|__| e ___|_|    
+                |   |      [G]     \\  
+                |   |     _____     \\ 
+                |   |    /    |     |  
+                |   |   \\     |  *  | 
+                |    \\ * \\    |     |
+                |     \\   \\   |  *  |
+                |     |   |   |     |  
+                |     |   |    \\   /  
+                |_____| l |____| r |__________________________________                                                                                                                                                                                                                                                      |
+                |                                                     |                                                                                                                                                                                                                                                     |
+                |________________________________________________________
+                """
+        };
+        System.out.println(Colors.BLACK_BOLD+maps[act-1]);
     }
 }
