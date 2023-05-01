@@ -140,7 +140,7 @@ public interface GameLogic {
         getInput("Enter any key to continue...", new String[]{}, new String[]{});
     }
 
-    static void genFight(Player player, Enemy enemy, Potion[] potions, Potion selectedPotion) throws InterruptedException {
+    static int genFight(Player player, Enemy enemy, Potion[] potions, Potion selectedPotion) throws InterruptedException {
         int p = -1;
 
         do {
@@ -190,6 +190,7 @@ public interface GameLogic {
                 }
             }
         } while (p == 0);
+        return p;
     }
 
     static void openMap(int act) {
@@ -214,5 +215,6 @@ public interface GameLogic {
                 """
         };
         System.out.println(Colors.BLACK_BOLD+maps[act-1]);
+        GameLogic.getInput("Enter any key to continue...", new String[]{}, new String[]{});
     }
 }

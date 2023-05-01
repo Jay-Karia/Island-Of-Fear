@@ -105,15 +105,15 @@ public class Player {
 
         Thread.sleep(2000);
 
-        System.out.println(Colors.ANSI_RESET + "Press " + Colors.BLACK_BOLD + "\"z\"" + Colors.ANSI_RESET + " for single strike, beware of enemy attacks" + Colors.ANSI_RESET);
 
         Thread.sleep(2000);
 
         // Before fight starts
+        GameLogic.printHeader("Fight Stats", 15);
         if (selectedWeapon.name.equalsIgnoreCase("knife"))
-            System.out.println(Colors.ANSI_RESET + "\nPlayer Health: " + Colors.BLACK_BOLD + this.health + Colors.ANSI_RESET + "\nWeapon Health: " + Colors.GREEN_BOLD + selectedWeapon.health + enemy.color + "\n" + enemy.name + Colors.ANSI_RESET + " Health: " + Colors.BLACK_BOLD + enemy.health);
+            System.out.println(Colors.ANSI_RESET + "\nPlayer Health: " + Colors.BLACK_BOLD + this.health + Colors.ANSI_RESET + "\nWeapon Health: " + Colors.GREEN_BOLD + selectedWeapon.health + Colors.ANSI_RESET + "\n\n" + Colors.BLACK_BOLD + selectedWeapon.name + Colors.ANSI_RESET + " Speed: " + Colors.BLACK_BOLD + selectedWeapon.attackSpeed + "s" + Colors.ANSI_RESET + "\n" + Colors.BLACK_BOLD + selectedWeapon.name + Colors.ANSI_RESET + " Damage: " + Colors.BLACK_BOLD + selectedWeapon.damage + enemy.color + "\n\n" + enemy.name + Colors.ANSI_RESET + " Health: " + Colors.BLACK_BOLD + enemy.health + "\n" + enemy.name + " Speed: " + enemy.color + enemy.attackSpeed + "s\n" + Colors.BLACK_BOLD + enemy.name + Colors.ANSI_RESET + " Damage: " + Colors.BLACK_BOLD + enemy.damage + "\n");
         else
-            System.out.println(Colors.ANSI_RESET + "\nHealth: " + Colors.BLACK_BOLD + this.health + Colors.ANSI_RESET + "\nAmmo: " + Colors.GREEN_BOLD + selectedWeapon.ammo + enemy.color + "\n" + enemy.name + Colors.ANSI_RESET + " Health: " + Colors.BLACK_BOLD + enemy.health);
+            System.out.println(Colors.ANSI_RESET + "\nPlayer Health: " + Colors.BLACK_BOLD + this.health + Colors.ANSI_RESET + "\nAmmo: " + Colors.GREEN_BOLD + selectedWeapon.ammo + Colors.ANSI_RESET + "\n\n" + Colors.BLACK_BOLD + selectedWeapon.name + Colors.ANSI_RESET + " Speed: " + Colors.BLACK_BOLD + selectedWeapon.attackSpeed + "s" + Colors.ANSI_RESET + "\n" + Colors.BLACK_BOLD + selectedWeapon.name + Colors.ANSI_RESET + " Damage: " + Colors.BLACK_BOLD + selectedWeapon.damage + enemy.color + "\n\n" + enemy.name + Colors.ANSI_RESET + " Health: " + Colors.BLACK_BOLD + enemy.health + "\n" + enemy.name + " Speed: " + enemy.color + enemy.attackSpeed + "s\n" + Colors.BLACK_BOLD + enemy.name + Colors.ANSI_RESET + " Damage: " + Colors.BLACK_BOLD + enemy.damage + "\n");
 
         long startTime = System.nanoTime();
         long endTime = 0;
@@ -123,6 +123,10 @@ public class Player {
             String effect = selectedPotion.duration > 0 ? " for " + "" + selectedPotion.duration + "s" : "";
             System.out.println(Colors.ANSI_RESET + "Potion Effect: " + Colors.BLACK_BOLD + selectedPotion.effect + effect);
         }
+
+        GameLogic.getInput("Enter any key to start fighting", new String[]{}, new String[]{});
+        System.out.println(Colors.ANSI_RESET + "\nPress " + Colors.BLACK_BOLD + "\"z\"" + Colors.ANSI_RESET + " for single strike, beware of enemy attacks" + Colors.ANSI_RESET);
+
         while (enemyHealth != 0) {
             if (this.checkDeath(this.health) == -1)
                 break;
@@ -130,7 +134,6 @@ public class Player {
                 String choice = GameLogic.getInput("", new String[]{}, new String[]{"z"});
 
                 // Checking the health of the knife
-                System.out.println(selectedWeapon.ammo);
                 if (selectedWeapon.name.equalsIgnoreCase("knife")) {
                     if (selectedWeapon.health <= 0) {
                         System.out.println(Colors.BLACK_BOLD + selectedWeapon.name + Colors.ANSI_RESET + " is " + Colors.RED_BOLD + "broken!\nYou Loose");
@@ -150,10 +153,16 @@ public class Player {
                         if (selectedPotion.duration >= timeElapsed) {
                             // Potion of Rage
                             switch (selectedPotion.key) {
-                                case "d" -> damage = selectedPotion.use(selectedWeapon.damage);
+                                case "d" -> {
+                                    damage += (double) (150 + selectedWeapon.damage) / 100;  // +150% damage
+                                    damage = (double) Math.round(damage * 100) / 100;
+                                }
 
                                 // Protector's Shield
-                                case "s" -> enemyDamage = selectedPotion.use(enemy.damage);
+                                case "s" -> {
+                                    enemyDamage = (50 * enemy.damage) / 100; // -50% damage
+                                    enemyDamage = (double) Math.round(enemyDamage * 100) / 100;
+                                }
 
                                 // Potion of Regeneration
                                 case "r" -> {
@@ -161,7 +170,7 @@ public class Player {
                                     health = 100;
                                 }
                                 // Sorcerer of Time
-                                case "t" -> enemyAttackSpeed = (enemy.attackSpeed * 50) * 100;
+                                case "t" -> enemyAttackSpeed = enemy.attackSpeed + (enemy.attackSpeed * 50) / 100;
                             }
                             // Blacksmith's Potion
 

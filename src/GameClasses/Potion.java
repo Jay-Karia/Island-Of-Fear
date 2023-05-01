@@ -18,17 +18,17 @@ public class Potion {
         this.key = key;
     }
 
-    public double use(double damage) {
-        if (key.equals("d")) {
-            damage += (150*damage) / 100;
-            return damage;
-        } else if (key.equals("s")) {
-            damage = (50*damage) / 100;
-            return damage;
-        }
-        else 
-            return 0;
-    }
+//    public double use(double damage) {
+//        if (key.equals("d")) {
+//            damage += (150*damage) / 100;
+//            return damage;
+//        } else if (key.equals("s")) {
+//            damage = (50*damage) / 100;
+//            return damage;
+//        }
+//        else
+//            return 0;
+//    }
 
     public void getInfo() {
         GameLogic.printHeader(this.name, 25);
