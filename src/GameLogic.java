@@ -127,8 +127,6 @@ public interface GameLogic {
         String bundle = GameLogic.getInput("", options, keys);
         int index = Integer.parseInt(bundle) - 1;
 
-        System.out.println(cost[index] + " - " + qty[index]);
-
         if (player.coins >= cost[index]) {
             // Buying ammo
             weapon.ammo += qty[index];

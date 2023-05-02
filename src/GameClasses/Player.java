@@ -15,12 +15,13 @@ public class Player {
     public int[] qty;
     public long coins;
     public long rubies;
+    public int counter;
 
     public Player() {
         health = 100;
-        coins = 2500;
-        rubies = 10;
-        weapons = new Weapon[5];
+        coins = 2000;
+        rubies = 0;
+        weapons = new Weapon[] {null, null, null, null, null};
         potions = new Potion[5];
         qty = new int[5];
     }
@@ -72,14 +73,21 @@ public class Player {
         double totalAttacks = 0;
         double totalEnemyAttacks = 0;
 
-        if (this.weapons.length == 1) {
+        for (int i = 0; i < 5; i++) {
+            if (this.weapons[i] == null)
+                continue;
+            else
+                counter++;
+        }
+
+        if (counter == 1) {
             System.out.println(Colors.ANSI_RESET + "Weapon: " + Colors.BLACK_BOLD + this.weapons[0].name + "\n");
             selectedWeapon = weapons[0];
         } else {
             System.out.print("\nSelect your weapon for the fight:");
-            String[] options = new String[weapons.length];
-            String[] keys = new String[weapons.length];
-            for (int i = 0; i < weapons.length; i++) {
+            String[] options = new String[counter];
+            String[] keys = new String[counter];
+            for (int i = 0; i < counter; i++) {
                 options[i] = weapons[i].name;
                 keys[i] = weapons[i].name.toLowerCase().charAt(0) + "";
             }
@@ -154,7 +162,7 @@ public class Player {
                             // Potion of Rage
                             switch (selectedPotion.key) {
                                 case "d" -> {
-                                    damage += (double) (150 + selectedWeapon.damage) / 100;  // +150% damage
+                                    damage = selectedWeapon.damage + (double) (150 * selectedWeapon.damage) / 100;  // +150% damage
                                     damage = (double) Math.round(damage * 100) / 100;
                                 }
 

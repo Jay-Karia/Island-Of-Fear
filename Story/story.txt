@@ -69,5 +69,3 @@ After interactions, he saw 3 paths:
 North [n]
 West [w]
 Open Map [m]
-
-
